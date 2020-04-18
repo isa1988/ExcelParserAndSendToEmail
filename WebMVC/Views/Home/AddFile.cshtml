@@ -1,0 +1,59 @@
+﻿@model WebMVC.Models.InportExcelModel
+
+@{
+    ViewData["Title"] = "AddFile";
+}
+
+<h1>AddFile</h1>
+
+<h4>InportExcelModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddFile" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsSend" /> @Html.DisplayNameFor(model => model.IsSend)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10" id="dropZone">
+                    Для загрузки, перетащите файл сюда.
+                </div>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="file" id="inportFile" name="InportFile" accept=".xls, .xlsx" /><br>
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+        <label asp-for="File" class="control-label"></label>
+        <input asp-for="File" class="form-control" />
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+            <input asp-for="InportFile" />-->
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
