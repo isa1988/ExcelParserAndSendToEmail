@@ -1,20 +1,21 @@
 ﻿@model WebMVC.Models.InportExcelModel
 
-@{
-    ViewData["Title"] = "AddFile";
-}
-
-<h1>AddFile</h1>
-
-<h4>InportExcelModel</h4>
+<h4>Выберите файл</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddFile" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Topic" class="control-label"></label>
+                <input asp-for="Topic" class="form-control" /> 
+                <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Message" class="control-label"></label>
-                <input asp-for="Message" class="form-control" />
+                <textarea type="text" rows="6" asp-for="Message" class="form-control"> </textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -37,7 +38,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Далее" class="btn btn-primary" />
             </div>
         </form>
     </div>

@@ -17,15 +17,23 @@ namespace WebMVC.Controllers
     {
         IMapper _mapper;
         IExcelService _service;
-        public HomeController(IExcelService service, IMapper mapper)
+        IEmailService _emailService;
+        ISendMessageService _sendMessage;
+        public HomeController(IExcelService service, ISendMessageService sendMessage, IEmailService emailService, IMapper mapper)
         {
             if (mapper == null)
                 throw new ArgumentNullException(nameof(mapper));
             if (service == null)
                 throw new ArgumentNullException(nameof(service));
+            if (sendMessage == null)
+                throw new ArgumentNullException(nameof(sendMessage));
+            if (emailService == null)
+                throw new ArgumentNullException(nameof(emailService));
 
             _service = service;
             _mapper = mapper;
+            _sendMessage = sendMessage;
+            _emailService = emailService;
         }
 
 
@@ -36,7 +44,12 @@ namespace WebMVC.Controllers
 
         public IActionResult AddFile()
         {
-            return View();
+            var model = new InportExcelModel();
+            model.Message = "Dear [SurName] [Name]" + Environment.NewLine;
+            model.Message += "your age [Age]";
+            model.Topic = "Тема письма";
+            model.IsSend = true;
+            return View(model);
         }
 
         [HttpPost]
@@ -54,9 +67,7 @@ namespace WebMVC.Controllers
 
             if (result.IsSuccess)
             {
-                var sendMessageInfoModel = new SendMessageModel();
-                sendMessageInfoModel.IsSend = request.IsSend;
-                sendMessageInfoModel.Message = request.Message;
+                var sendMessageInfoModel = _mapper.Map<SendMessageModel>(request);
                 sendMessageInfoModel.UserList = _mapper.Map<List<UserInfoModel>>(_service.MessageToUserList);
 
                 return View("MessageToUsers", sendMessageInfoModel);
@@ -70,22 +81,21 @@ namespace WebMVC.Controllers
 
 
         [HttpPost]
-        public IActionResult MessageToUsers(SendMessageDto request)
+        public IActionResult MessageToUsers(SendMessageModel request)
         {
             var sendMessageInfoDto = _mapper.Map<SendMessageDto>(request);
 
-            /*var result = _service.Analysis(sendMessageInfoDto);
+            var result = _sendMessage.Send(_emailService, sendMessageInfoDto);
 
             if (result.IsSuccess)
             {
-                return RedirectToAction("Index");
+                return View("MessageSuccess");
             }
             else
             {
                 request.Error = GetError(result.Errors);
                 return View(request);
-            }*/
-            return View();
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

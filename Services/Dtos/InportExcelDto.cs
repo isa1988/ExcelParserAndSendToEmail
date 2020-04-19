@@ -8,6 +8,8 @@ namespace Services.Dtos
     {
         public string Message { get; set; }
 
+        public string Topic { get; set; }
+
         public bool IsSend { get; set; }
 
         public byte[] File { get; set; }

@@ -26,6 +26,8 @@ namespace WebMVC
         {
             CreateMap<SendMessageModel, SendMessageDto>();
             CreateMap<SendMessageDto, SendMessageModel>();
+            CreateMap<InportExcelModel, SendMessageModel>()
+                .ForMember(x => x.UserList, p => p.Ignore());
         }
         private void UserInfoMapping()
         {

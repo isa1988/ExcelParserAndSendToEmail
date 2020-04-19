@@ -11,6 +11,8 @@ namespace WebMVC.Models
 
         public string Message { get; set; }
 
+        public string Topic { get; set; }
+
         public bool IsSend { get; set; }
 
         public SendMessageModel()

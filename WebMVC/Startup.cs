@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Services.Dtos;
 using Services.Services;
 using Services.Services.Contracts;
 using WebMVC.AppStart;
@@ -34,8 +35,13 @@ namespace WebMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddTransient<EmailSettings>();
+
             services.AddAutoMapperCustom();
             services.AddScoped<IExcelService, ExcelService>();
+            services.AddScoped<ISendMessageService, SendMessageService>();
+
+            services.AddSingleton<IEmailService, EmailServicecs>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
