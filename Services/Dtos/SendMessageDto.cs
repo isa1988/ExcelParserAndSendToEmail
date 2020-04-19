@@ -10,6 +10,8 @@ namespace Services.Dtos
 
         public string Message { get; set; }
 
+        public bool IsSend { get; set; }
+
         public SendMessageDto()
         {
             UserList = new List<UserInfoDto>();

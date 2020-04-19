@@ -38,12 +38,12 @@ namespace Services.Services
                         for (int row = 2; row <= rowCount; row++)
                         {
                             age = 0;
-                            int.TryParse(worksheet.Cells[row, 4].Value.ToString().Trim(), out age);
+                            int.TryParse(worksheet.Cells[row, 4]?.Value?.ToString().Trim() ?? string.Empty, out age);
                             _messageToUserList.Add(new UserInfoDto
                             {
-                                Name = worksheet.Cells[row, 1].Value.ToString().Trim(),
-                                SurName = worksheet.Cells[row, 2].Value.ToString().Trim(),
-                                EMail = worksheet.Cells[row, 3].Value.ToString().Trim(),
+                                Name = worksheet.Cells[row, 1]?.Value?.ToString().Trim() ?? string.Empty,
+                                SurName = worksheet.Cells[row, 2]?.Value?.ToString().Trim() ?? string.Empty,
+                                EMail = worksheet.Cells[row, 3]?.Value?.ToString().Trim() ?? string.Empty,
                                 Age = age,
                             });
                         }

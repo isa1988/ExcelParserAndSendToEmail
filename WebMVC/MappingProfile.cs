@@ -12,12 +12,26 @@ namespace WebMVC
     {
         public MappingProfile()
         {
+            InportExcelMapping();
             SendMessageMapping();
+            UserInfoMapping();
+        }
+
+        private void InportExcelMapping()
+        {
+            CreateMap<InportExcelModel, InportExcelDto>();
         }
 
         private void SendMessageMapping()
         {
-            CreateMap<InportExcelModel, InportExcelDto>();
+            CreateMap<SendMessageModel, SendMessageDto>();
+            CreateMap<SendMessageDto, SendMessageModel>();
         }
+        private void UserInfoMapping()
+        {
+            CreateMap<UserInfoDto, UserInfoModel>();
+            CreateMap<UserInfoModel, UserInfoDto>();
+        }
+
     }
 }

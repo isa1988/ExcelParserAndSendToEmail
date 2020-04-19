@@ -48,9 +48,33 @@ namespace WebMVC.Controllers
                 request.InportFile.OpenReadStream().CopyTo(ms);
                 request.File = ms.ToArray();
             }
-            var sendMessageInfoDto = _mapper.Map<InportExcelDto>(request);
+            var inportExcelDto = _mapper.Map<InportExcelDto>(request);
             
-            var result = _service.Analysis(sendMessageInfoDto);
+            var result = _service.Analysis(inportExcelDto);
+
+            if (result.IsSuccess)
+            {
+                var sendMessageInfoModel = new SendMessageModel();
+                sendMessageInfoModel.IsSend = request.IsSend;
+                sendMessageInfoModel.Message = request.Message;
+                sendMessageInfoModel.UserList = _mapper.Map<List<UserInfoModel>>(_service.MessageToUserList);
+
+                return View("MessageToUsers", sendMessageInfoModel);
+            }
+            else
+            {
+                request.Error = GetError(result.Errors);
+                return View(request);
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult MessageToUsers(SendMessageDto request)
+        {
+            var sendMessageInfoDto = _mapper.Map<SendMessageDto>(request);
+
+            /*var result = _service.Analysis(sendMessageInfoDto);
 
             if (result.IsSuccess)
             {
@@ -60,7 +84,8 @@ namespace WebMVC.Controllers
             {
                 request.Error = GetError(result.Errors);
                 return View(request);
-            }
+            }*/
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
